@@ -68,78 +68,154 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            TimeExample()
+            WatchCard()
         }
     }
 }
 
-@OptIn(ExperimentalComposeUiApi::class)
+
+@Preview
 @Composable
-fun TimeExample() {
-    var time by remember{
-        mutableStateOf(0L)
+fun WatchCard() {
+    Card(elevation = CardDefaults.cardElevation(defaultElevation=10.dp),
+        border = BorderStroke(2.dp, Color.Gray),
+        modifier = Modifier.padding(20.dp))
+    {
+        Stopwatch()
     }
-    var isRunning by remember{
-        mutableStateOf(false)
-    }
-
-    var startTime by remember {
-        mutableStateOf(0L)
-    }
-    val context = LocalContext.current
-
-    val keyboardController = LocalSoftwareKeyboardController.current
-//    val keyboardController = LocalSoftwareKeyboardController.current
-//    val focusManager = LocalFocusManager.current
-
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .padding(15.dp),
-        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-        Text(text = FormatTime(timeMi = time), style = MaterialTheme.typography.headlineLarge,
-            modifier = Modifier.padding(9.dp))
-        Spacer(modifier = Modifier.height(18.dp))
-        Row {
-            Button(onClick = {
-                if (isRunning) {
-                    isRunning = false
-                }
-                else{
-                    startTime = System.currentTimeMillis() -time
-                    isRunning = true
-                    keyboardController?.hide()
-                }
-            }, modifier = Modifier.weight(1f)) {
-                Text(text = if (isRunning) "Puase" else "Start" , color = Color.Blue)
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Button(onClick = {
-                time = 0
-                isRunning = false
-            }, modifier = Modifier.weight(1f)) {
-                Text(text = "Reset" , color =Color.Blue)
-
-            }
-        }
-
-    }
-    LaunchedEffect(isRunning){
-        while (isRunning){
-            delay(1000)
-            time = System.currentTimeMillis()- startTime
-        }
-    }
-
 }
+
+
+
 @Composable
-fun FormatTime(timeMi: Long):String{
+fun Stopwatch() {
+    var running by remember { mutableStateOf(false) }
+    var startTime by remember { mutableStateOf(0L) }
 
-    val hours = TimeUnit.MILLISECONDS.toHours(timeMi)
-    val min = TimeUnit.MILLISECONDS.toMinutes(timeMi)%60
-    val sec = TimeUnit.MILLISECONDS.toMillis(timeMi)%60
+    val elapsedTime = remember { mutableStateOf(0L) }
 
-    return String.format("%02d:%02d:%02d", hours, min, sec)
+    LaunchedEffect(Unit) {
+        while (true) {
+            if (running) {
+                startTime = System.currentTimeMillis() - elapsedTime.value
+            }
+            elapsedTime.value = System.currentTimeMillis() - startTime
+            delay(10)
+        }
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(
+            text = formatTime(elapsedTime.value),
+            fontSize = 40.sp
+        )
+
+        Row(
+            modifier = Modifier.padding(top = 1.dp),
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Button(
+                onClick = {
+                    running = !running
+                },
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = if (running) "Pause" else "Start")
+            }
+
+            Button(
+                onClick = {
+                    running = false
+                    elapsedTime.value = 0
+                },
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = "Reset")
+            }
+        }
+    }
 }
+
+ fun formatTime(timeInMillis: Long): String {
+    val seconds = (timeInMillis / 1000) % 60
+    val minutes = (timeInMillis / (1000 * 60)) % 60
+    val hours = (timeInMillis / (1000 * 60 * 60)) % 24
+
+    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+}
+
+//@Composable
+//fun StopwatchScreen() {
+//    var time by remember { mutableStateOf(0L) }
+//    var isRunning by remember { mutableStateOf(false) }
+//    var startTime by remember { mutableStateOf(0L) }
+//    val elapsed = System.currentTimeMillis() - startTime
+//
+//    Column(
+//        horizontalAlignment = Alignment.CenterHorizontally,
+//        verticalArrangement = Arrangement.Center
+//    ) {
+//        TimerText(time = elapsed)
+//        Row(
+//            horizontalArrangement = Arrangement.Center
+//        ) {
+//            StartStopButton(isRunning = isRunning) {
+//                isRunning = !isRunning
+//                if (isRunning) {
+//                    startTime = System.currentTimeMillis() - elapsed
+//                }
+//            }
+//            ResetButton(onResetClick = {
+//                isRunning = false
+//                time = 0L
+//            })
+//        }
+//    }
+//    LaunchedEffect(Unit) {
+//        while (isRunning) {
+//            delay(1000)
+//            time = System.currentTimeMillis()
+//        }
+//    }
+//}
+//
+//
+//@Composable
+//fun StartStopButton(isRunning: Boolean, onStartStopClick: () -> Unit) {
+//    val label = if (isRunning) "Stop" else "Start"
+//    Button(onClick = onStartStopClick) {
+//        Text(label)
+//    }
+//}
+//
+//@Composable
+//fun ResetButton(onResetClick: () -> Unit) {
+//    Button(onClick = onResetClick) {
+//        Text("Reset")
+//    }
+//}
+//@Composable
+//fun TimerText(time: Long) {
+//    Text(
+//        text = FormatTime(time),
+//        fontSize = 64.sp,
+//        fontWeight = FontWeight.Bold,
+//        modifier = Modifier.padding(vertical = 16.dp)
+//    )
+//}
+//
+//@Composable
+//fun FormatTime(timeInMillis: Long): String {
+//    val seconds = (timeInMillis / 1000) % 60
+//    val minutes = (timeInMillis / (1000 * 60)) % 60
+//    val hours = (timeInMillis / (1000 * 60 * 60)) % 24
+//
+//    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
+//}
 
 
 
