@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -35,8 +36,10 @@ fun QuotesDetail(quote: Quote) {
     BackHandler {
         DataManager.switchPages(null)
     }
-    Box(modifier = Modifier
-        .fillMaxWidth(1f)
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+        .fillMaxSize(1f)
         .background(
             Brush.sweepGradient(
                 colors = listOf(
@@ -47,12 +50,11 @@ fun QuotesDetail(quote: Quote) {
     ){
         Card(elevation = CardDefaults.cardElevation(defaultElevation =
         4.dp),
-            modifier = Modifier.padding(45.dp)
+            modifier = Modifier.padding(32.dp)
         ) {
             Column(verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .padding(16.dp, 40.dp)) {
+                    .padding(16.dp, 24.dp)) {
                 Image(
                     imageVector = Icons.Filled.FormatQuote ,
                     contentDescription ="Quotes",
@@ -64,6 +66,11 @@ fun QuotesDetail(quote: Quote) {
                     fontFamily = FontFamily(Font(R.font.montserrat_regular)),
                     style = MaterialTheme.typography.headlineSmall)
                 Spacer(modifier = Modifier.height(16.dp))
+                Box(modifier = Modifier
+                    .background(Color.Gray)
+                    .fillMaxWidth(.4f)
+                    .height(1.dp)
+                )
                 Text(text = quote.author,
                     fontFamily = FontFamily(Font(R.font.montserrat_regular)),
                     style = MaterialTheme.typography.headlineSmall)
