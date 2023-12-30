@@ -100,7 +100,7 @@ fun Stopwatch() {
                 startTime = System.currentTimeMillis() - elapsedTime.value
             }
             elapsedTime.value = System.currentTimeMillis() - startTime
-            delay(10)
+            delay(1000)
         }
     }
 
@@ -147,78 +147,6 @@ fun Stopwatch() {
 
     return String.format("%02d:%02d:%02d", hours, minutes, seconds)
 }
-
-//@Composable
-//fun StopwatchScreen() {
-//    var time by remember { mutableStateOf(0L) }
-//    var isRunning by remember { mutableStateOf(false) }
-//    var startTime by remember { mutableStateOf(0L) }
-//    val elapsed = System.currentTimeMillis() - startTime
-//
-//    Column(
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//        verticalArrangement = Arrangement.Center
-//    ) {
-//        TimerText(time = elapsed)
-//        Row(
-//            horizontalArrangement = Arrangement.Center
-//        ) {
-//            StartStopButton(isRunning = isRunning) {
-//                isRunning = !isRunning
-//                if (isRunning) {
-//                    startTime = System.currentTimeMillis() - elapsed
-//                }
-//            }
-//            ResetButton(onResetClick = {
-//                isRunning = false
-//                time = 0L
-//            })
-//        }
-//    }
-//    LaunchedEffect(Unit) {
-//        while (isRunning) {
-//            delay(1000)
-//            time = System.currentTimeMillis()
-//        }
-//    }
-//}
-//
-//
-//@Composable
-//fun StartStopButton(isRunning: Boolean, onStartStopClick: () -> Unit) {
-//    val label = if (isRunning) "Stop" else "Start"
-//    Button(onClick = onStartStopClick) {
-//        Text(label)
-//    }
-//}
-//
-//@Composable
-//fun ResetButton(onResetClick: () -> Unit) {
-//    Button(onClick = onResetClick) {
-//        Text("Reset")
-//    }
-//}
-//@Composable
-//fun TimerText(time: Long) {
-//    Text(
-//        text = FormatTime(time),
-//        fontSize = 64.sp,
-//        fontWeight = FontWeight.Bold,
-//        modifier = Modifier.padding(vertical = 16.dp)
-//    )
-//}
-//
-//@Composable
-//fun FormatTime(timeInMillis: Long): String {
-//    val seconds = (timeInMillis / 1000) % 60
-//    val minutes = (timeInMillis / (1000 * 60)) % 60
-//    val hours = (timeInMillis / (1000 * 60 * 60)) % 24
-//
-//    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
-//}
-
-
-
 
 //@Preview
 //@Composable
