@@ -39,12 +39,12 @@ import com.tejdev.quotesapp.models.Quote
 
 
 @Composable
-fun QuoteListItem(quote: Quote, onClick: ()-> Unit) {
+fun QuoteListItem(quote: Quote, onClick: (quote:Quote)-> Unit) {
     Card(
         elevation = CardDefaults.cardElevation(
             defaultElevation = 10.dp),
         border = BorderStroke(3.dp, Color.DarkGray),
-        modifier = Modifier.padding(10.dp).fillMaxWidth().clickable{ onClick },
+        modifier = Modifier.padding(10.dp).fillMaxWidth().clickable{ onClick(quote) },
 
         ){
         Row(modifier = Modifier.padding(10.dp)) {

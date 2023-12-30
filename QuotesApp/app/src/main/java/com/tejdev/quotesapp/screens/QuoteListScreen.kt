@@ -15,7 +15,7 @@ import com.tejdev.quotesapp.R
 import com.tejdev.quotesapp.models.Quote
 
 @Composable
-fun QuoteListScreen(data : Array<Quote>, onclick:()->Unit) {
+fun QuoteListScreen(data : Array<Quote>, onclick:(quote:Quote)->Unit) {
     Column() {
         Text(text = "Quote App",
             textAlign = TextAlign.Center,
@@ -23,8 +23,6 @@ fun QuoteListScreen(data : Array<Quote>, onclick:()->Unit) {
                 .fillMaxWidth(1f),
         style = MaterialTheme.typography.headlineMedium,
             fontFamily = FontFamily(Font(R.font.montserrat_regular)))
-        QuoteLists(data = data ) {
-            onclick
-        }
+        QuoteLists(data = data , onclick)
     }
 }

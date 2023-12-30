@@ -1,5 +1,6 @@
 package com.tejdev.quotesapp.screens
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -25,11 +26,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import com.tejdev.quotesapp.DataManager
 import com.tejdev.quotesapp.R
 import com.tejdev.quotesapp.models.Quote
 
 @Composable
 fun QuotesDetail(quote: Quote) {
+    BackHandler {
+        DataManager.switchPages(null)
+    }
     Box(modifier = Modifier
         .fillMaxWidth(1f)
         .background(
