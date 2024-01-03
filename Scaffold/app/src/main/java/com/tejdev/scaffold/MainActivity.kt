@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.tejdev.scaffold.screens.ActionButton
 import com.tejdev.scaffold.screens.SmallTopAppBarExample
 import com.tejdev.scaffold.ui.theme.ScaffoldTheme
 
@@ -37,9 +38,14 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            SmallTopAppBarExample()
+           App()
         }
     }
+}
+
+@Composable
+fun App() {
+    SmallTopAppBarExample()
 }
 
 
